@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    .error {
+        border: 1px solid red;
+    }
+
+    .animate_animated {
+        animation: fadeInLeftBig 1s;
+    }
+
+    @keyframes fadeInLeftBig {
+        from {
+            opacity: 0;
+            transform: translate3d(-100%, 0, 0);
+        }
+
+        to {
+            opacity: 1;
+            transform: none;
+        }
+    }
+</style>
+
+<body>
+    <input id="from" type="text">
+    В инпуте написано: <span></span>
+    <br>
+    <button class="messageBtn">Показать блок</button>
+    <div class="message">
+        Привет :)
+    </div>
+    <br>
+    <form id="myForm">
+        <label>
+            Первый инпут:
+            <input class="form-control" type="text" name="input1">
+        </label>
+        <br>
+        <br>
+        <label>
+            Второй инпут:
+            <select class="form-control" name="input2">
+                <option value=""></option>
+                <option value="1">Один</option>
+                <option value="2">Два</option>
+            </select>
+        </label>
+        <br>
+        <br>
+        <button type="submit">Отправить</button>
+    </form>
+
+    <script>
+        const fromInput = document.getElementById('from');
+        const spanOutput = document.querySelector('span');
+        const messageBtn = document.querySelector('.messageBtn');
+        const messageDiv = document.querySelector('.message');
+        const form = document.getElementById('myForm');
+
+        //1. При изменении значения в input с id="from", значение содержащееся в нем должно моментально отображаться в span. То есть при печати в input'е тег span также должен меняться.
+        fromInput.addEventListener('input', () => {
+            spanOutput.textContent = fromInput.value;
+        });
+
+        //2. При клике на кнопку с классом messageBtn необходимо элементу с классом message:
+        //- добавить два класса: animate_animated и animate_fadeInLeftBig
+        //- поставить данному элементу стиль visibility в значение 'visible'.
+        messageBtn.addEventListener('click', () => {
+            messageDiv.classList.add('animate_animated', 'animate_fadeInLeftBig');
+            messageDiv.style.visibility = 'visible';
+        });
+
+        //3. Необходимо при отправке формы проверить, заполнены ли все поля в этой форме. Если какое-либо поле не заполнено, форма не должна отправляться, также должны быть подсвечены незаполненные поля (необходимо поставить класс error незаполненным полям). Как только пользователь начинает заполнять какое-либо поле, необходимо, при вводе в данное поле, произвести проверку:
+        //- Если поле пустое, необходимо данное поле подсветить (поставить класс error данному полю).
+        //- Если поле было чем-либо заполнено, подсветку (класс error) необходимо убрать.
+
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            let formValid = true;
+            const formElements = form.elements;
+
+            for (let i = 0; i < formElements.length - 1; i++) {
+                if (formElements[i].value.trim() === '') {
+                    formValid = false;
+                    formElements[i].classList.add('error');
+                } else {
+                    formElements[i].classList.remove('error');
+                }
+            }
+
+            if (formValid) {
+                alert('Форма успешно отправлена!');
+                form.reset();
+            } else {
+                alert('Пожалуйста, заполните все поля.');
+            }
+        });
+
+        form.addEventListener('input', (e) => {
+            if (e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT') {
+                if (e.target.value.trim() === '') {
+                    e.target.classList.add('error');
+                } else {
+                    e.target.classList.remove('error');
+                }
+            }
+        });
+    </script>
+</body>
+</body>
+
+</html>
