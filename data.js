@@ -11,7 +11,7 @@
                authorName: data.user.name,
                authorUsername: data.user.username
            };
-              // Вставить следующий код после создания переменной imageData в файле data.js
+              
    const contentDiv = document.getElementById('content');
 
    const imageElement = document.createElement('img');
